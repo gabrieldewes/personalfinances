@@ -1,0 +1,46 @@
+
+@model MyApp.Models.Finance
+@{
+    ViewData["Title"] = "Detalhes de Finança";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+    <br>
+    <a href="/Finances" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Voltar</a>
+    <a href="/Finances/Edit/@Model.id" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Alterar</a>
+</div>
+
+<div class="bs bs-callout bs-callout-info">
+    <div class="container">
+        <dl class="dl-horizontal">
+
+            <dt><h4>ID</h4></dt>
+            <dd><h4><small>@Model.id</small></h4></dd>
+
+            <dt><h4>Valor</h4></dt>
+            <dd><h4><small>@Model.value</small></dd>
+
+            <dt><h4>Data</h4></dt>
+            <dd><h4><small>@Model.date.ToString("dd/MM/yyyy")</small></dd>
+
+            <dt><h4>Tipo</h4></span></dt>
+            <dd><h4><small>@Model.financeType.name</small></dd>
+
+            <dt><h4>Local</h4></span></dt>
+            <dd><h4><small>@Model.place.name</small></dd>
+
+            <dt><h4>Status</h4></dt>
+            @if (@Model.status==1) {<dd><label class="label label-success">Pago</label></dd>}
+            else {<dd><label class="label label-warning">Pendente</label></dd>}
+
+            <dt><h4>Nível</h4></dt>
+            
+            @if(@Model.level == 0) {<dd><label class="label label-success">Baixo</label></dd>}
+            @if(@Model.level == 1) {<dd><label class="label label-info">Padrão</label></dd>}
+            @if(@Model.level == 2) {<dd><label class="label label-warning">Moderado</label></dd>}
+            @if(@Model.level == 3) {<dd><label class="label label-danger">Urgente</label></dd>}
+        </dl>
+    </div>
+</div>
+

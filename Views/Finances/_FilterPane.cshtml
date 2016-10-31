@@ -1,0 +1,79 @@
+<div class="row col-sm-12">   
+    <div class="well">
+        <div class="form-inline" >
+            <div class="form-group">
+                <input data-toggle="tooltip" title="Data de Início" type="date" id="startDate" name="startDate" class="form-control" style="width: 150px;" />
+            </div>
+            <div class="form-group">
+                <input data-toggle="tooltip" title="Data de Fim" type="date" id="endDate" name="endDate" class="form-control" style="width: 150px;" />
+            </div>
+
+            <div class="form-group" data-toggle="tooltip" title="Tipo de Finança" >
+                <select name="financeTypeSearch" id="financeTypeSearch" style="width: 150px;"></select>
+            </div>
+
+            <div class="form-group" data-toggle="tooltip" title="Local">
+                <select name="placeSearch" id="placeSearch" style="width: 150px;"></select>
+            </div>
+
+            <div class="form-group">
+                <a id="search" class="btn btn-default" role="button" data-loading-text="Aguarde..."><span class="glyphicon glyphicon-search"></span> Buscar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript"> 
+(function() {
+    $("#financeTypeSearch").simpleSelect2Json("http://localhost:5000/api/finances/financeTypes", "id", "name");
+    $("#placeSearch").simpleSelect2Json("http://localhost:5000/api/finances/places", "id", "name");
+
+    $("#financeTypeSearch").select2({
+        placeholder: "Selecione um Tipo",
+        allowClear: true
+    });
+    $("#placeSearch").select2({
+        placeholder: "Selecione um Local",
+        allowClear: true
+    });
+})();   
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip(); 
+
+    $("#search").on("click", function() {
+        
+        var startDate     = $("#startDate").val(),
+            endDate       = $("#endDate").val(),
+            financeTypeId = Number($("#financeTypeSearch").val()),
+            placeId       = Number($("#placeSearch").val()),
+            button        = $(this),
+            data          = JSON.stringify({placeId:placeId, financeTypeId:financeTypeId, startDate:startDate, endDate:endDate}),
+            url           = "api/finances/search";
+
+            button.button('loading');
+
+            console.debug("POST ", url, ": ", data);
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: data,
+                success: function(data) {
+                    console.debug(data);
+                    button.button('reset');
+                    var table = $('#finance-table');
+                    table.find('tbody').empty();
+                    table.append($(data).find('#finance-table').find('tbody'));
+                    $('#sum').html($(data).find('#sum'));
+                    $("[data-toggle='popover']").popover({placement: 'right'});
+                },
+                error: function(err) {
+                    console.error(err);
+                    button.button('reset');
+                }
+            });
+           
+    });
+
+});
+</script>

@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Nova Finança";
+}
+<div class="container">   
+    <div class="page-header">
+        <h2>@ViewData["Title"]</h2> 
+        <br>
+        <a href="/Finances" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Voltar</a>
+    </div>
+
+   <div class="row col-sm-8 well">
+
+       <input type="hidden" value='@Model' id="userId">
+
+        <div class="form-group row">
+            <label for="financeType" class="col-md-3 control-label">Tipo de Finança</label>
+            <div class="col-sm-6" id="financeType">
+                <span class="text-danger"></span>
+                <select class="form-control" name="financeType" style="width:280px;"></select> 
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="place" class="col-md-3 control-label">Local</label>
+            <div class="col-sm-6" id="place">
+                <span class="text-danger"></span>
+                <select class="form-control" name="place" style="width:280px;"></select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="date" class="col-md-3 control-label">Data</label>
+            <div class="col-sm-6" id="date">
+                <span class="text-danger"></span>
+                <input type="date" name="date"  class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="value" class="col-md-3 control-label">Valor</label>
+            <div class="col-sm-6" id="value">
+                <span class="text-danger"></span>
+                <input type="number" name="value" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="level" class="col-md-3 control-label">Nível</label>
+            <div class="col-sm-6">
+                <span class="text-danger"></span>
+                <select class="form-control" id="level" name="level" style="width:280px;"></select> 
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="status" class="col-md-3 control-label">Status</label>
+            <div class="col-sm-6 switch">
+                <input id="status" name="status" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+                <label for="status" data-on="Pago!" data-off="Pendente"></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="/Finances" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Voltar</a>
+                <button data-loading-text="Aguarde..." id="createFinance" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<environment names="Development">
+    <script src="~/js/finance/finance.create.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="~/js/finance/finance.create.min.js"
+            asp-fallback-src="~/js/finance/finance.create.js"
+            asp-fallback-test="">
+    </script>
+</environment>

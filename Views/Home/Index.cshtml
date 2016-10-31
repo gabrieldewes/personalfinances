@@ -1,0 +1,45 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<MyApp.Models.Finance>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <br>
+    <div class="col-12">
+        @if (!User.Identities.Any(u => u.IsAuthenticated)) {
+            <div class="col-sm-6">
+                <div class="bs bs-callout bs-callout-warning">
+                    <h4>Bem vindo visitante! </h4>
+                    <a asp-controller="Account" asp-action="Login">Faça login</a> ou <a asp-controller="Account" asp-action="Register">registre-se</a>
+                </div>
+            </div>
+        }
+        else {
+            <div class="col-md-6">
+                <div class="bs bs-callout bs-callout-info">
+                    <h4>Bem-vindo <strong>@User.Identities.First(u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value</strong>!</h4>
+                    <p><h4><small> Você está logado como <strong>@User.Identities.First(u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.NameIdentifier)).FindFirst(ClaimTypes.NameIdentifier).Value</strong>.</small></h4></p>
+                    <p><h4><small class="label label-warning"><strong>@User.Identities.First(u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Role)).FindFirst(ClaimTypes.Role).Value</strong></small></h4></p>
+
+                    
+                    <h4><small><a href="/Account/Detail/@User.Identities.First(u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.Sid)).FindFirst(ClaimTypes.Sid).Value">Ver meus dados</a></small></h4>
+                    <h4><small><a asp-controller="Account" asp-action="Logout">Sair</a></small></h4>
+                </div>
+            </div>
+        }
+        @if (@Model != null && @Model.Any()) {
+            <label for="">Suas últimas Despesas </label> <a class="pull-right" href="/Finances">Ver todas</a>
+            <div class="pre-scrollable col-md-6">               
+                @foreach(var f in @Model) {
+                    <div class="bs bs-callout bs-callout-warning">
+                        <h4>@f.value <small class="pull-right">@f.date.ToString("dd/MM/yy")</small></h4>
+                        <p><label>@f.financeType.name</label> em <label>@f.place.name</label></p>
+                        <h4><small class="pull-right"><a href="/Finances/Detail/@f.id">Ver mais</a></small></h4>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+</div>

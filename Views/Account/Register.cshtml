@@ -1,0 +1,57 @@
+
+@model MyApp.Models.User
+@{
+    ViewData["Title"] = "Registre-se";
+}
+
+<div class="container">
+    <div class="page-header">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+
+    <form asp-controller="Account" asp-action="Register" method="POST">
+        <div class="row col-sm-8 well">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="fullname" class="col-sm-2 col-form-label">Nome</label>
+                <div class="col-sm-6">
+                    <span asp-validation-for="fullname" class="text-danger"></span>
+                    <input asp-for="fullname" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="email" class="col-sm-2 col-form-label">E-mail</label>
+                <div class="col-sm-6">
+                    <span asp-validation-for="email" class="text-danger"></span>
+                    <input asp-for="email" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="username" class="col-sm-2 col-form-label">Usuário</label>
+                <div class="col-sm-6">
+                    <span asp-validation-for="username" class="text-danger"></span>
+                    <input asp-for="username" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="password" class="col-sm-2 col-form-label">Senha</label>
+                <div class="col-sm-6">
+                    <span asp-validation-for="password" class="text-danger"></span>
+                    <input asp-for="password" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="#" onclick="history.back()" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Voltar</a>
+                    <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span> Salvar</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+

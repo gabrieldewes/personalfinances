@@ -1,0 +1,35 @@
+
+@model MyApp.Models.User
+@{
+    ViewData["Title"] = "Meus Dados";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+    <br>
+    <a href="#" onclick="history.back()" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Voltar</a>
+    <!--<a href="/Account/Edit/@Model.id" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span> Alterar</a>-->
+</div>
+
+<div class="bs bs-callout bs-callout-info">
+    <div class="container">
+        <dl class="dl-horizontal">
+
+            <dt><h4>ID</h4></dt>
+            <dd><h4><small>@Model.id</small></h4></dd>
+
+            <dt><h4>Nome</h4></dt>
+            <dd><h4><small>@Model.fullname</small></dd>
+
+            <dt><h4>Usuário</h4></dt>
+            <dd><h4><small>@Model.username</small></dd>
+
+            <dt><h4>Senha</h4></span></dt>
+            <dd><h4><small>@Model.password</small></dd>
+
+            <dt><h4>E-mail</h4></span></dt>
+            <dd><h4><small>@Model.email</small></dd>
+        </dl>
+    </div>
+</div>
+

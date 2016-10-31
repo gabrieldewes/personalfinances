@@ -1,0 +1,90 @@
+@model IEnumerable<MyApp.Models.Finance>
+@{
+    ViewData["Title"] = "Minhas Finanças";
+}
+
+<div class="row col-12">
+    <div class="page-header">
+        <h2>@ViewData["Title"]</h2>
+        <br>
+        <a href="/Finances/Create" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Nova Finança</a>
+        <a href="/Finances/Metadatas" class="btn btn-info"><span class="glyphicon glyphicon-list"></span> Tipos e Locais</a>
+        <div class="label label-warning pull-right">
+            <h4 id="sum">Total: @TempData["sum"]</h4>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_FilterPane")
+
+    <div class="">
+        <table id="finance-table" class="table table-responsive table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Data</td>
+                    <td>Valor</td>
+                    <td>Urgência</td>
+                    <td>Status</td>
+                    <td>Local</td>
+                    <td>Tipo</td>
+                    <td>Ações</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var f in @Model) {
+                    <tr data-model-id="@f.id">
+                        <td>@f.id</td>
+                        <td><strong>@f.date.ToString("dd-MM-yyyy")</strong></td>
+                        <td class="text-info">R$ <strong>@f.value</strong></td>
+                        <td>
+                            @if(@f.level == 0) {<label class="label label-success">Baixo</label>}
+                            @if(@f.level == 1) {<label class="label label-info">Padrão</label>}
+                            @if(@f.level == 2) {<label class="label label-warning">Moderado</label>}
+                            @if(@f.level == 3) {<label class="label label-danger">Urgente</label>}
+                        </td>
+                        <td>
+                            @if(@f.status==1) {<a id="update-status-popover" data-toggle="popover" data-model-id="@f.id" class="label label-success">Pago</a>}
+                            @if(@f.status==0) {<a id="update-status-popover" data-toggle="popover" data-model-id="@f.id" class="label label-warning">Pendente</a>}
+                        </td>
+                        <td>@f.place.name</td>
+                        <td>@f.financeType.name</td>
+                        <td class="btn-group btn-group-sm" role="group">
+                            <a class="btn btn-info" href="/Finances/Detail/@f.id"><span class="glyphicon glyphicon-eye-open"></span></a>
+                            <a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-danger" data-model-id="@f.id" data-toggle="modal" data-target="#delete_modal" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Atenção meu querido</h4>
+      </div>
+      <div class="modal-body">
+        <p class="lead">Tem certeza que deseja apagar esta Finança?</p>
+        <p>Apagando ela você não se livra da conta.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Voltar</button>
+        <button id="confirm_delete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Apagar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<environment names="Development">
+    <script src="~/js/finance/finance.index.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="~/js/finance/finance.index.min.js"
+            asp-fallback-src="~/js/finance/finance.index.js"
+            asp-fallback-test="">
+    </script>
+</environment>
